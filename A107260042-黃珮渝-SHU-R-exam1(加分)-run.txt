@@ -1,0 +1,132 @@
+> #2020/11/20(五), 109學年第一學期 資料科學應用 R小考(1) 加分
+> #學號:  A107260042      姓名: 黃珮渝
+> 
+> # ex1(a)
+> a <- read.csv("data/Calculus-score-A.csv", header = T,skip = 2, na = "NA")
+> names(a) <- c("NO","ID", "Name", "Gender", "Quiz1", "Quiz2", "Quiz3",
++               "Quiz4", "TA", "Midterm", "Final", "ATT")
+> library(readxl)
+> b <- read_excel("data/Calculus-score-B.xls", skip = 2, na = "NA")   
+New names:
+* `0.070000000000000007` -> `0.070000000000000007...5`
+* `0.070000000000000007` -> `0.070000000000000007...6`
+* `0.080000000000000002` -> `0.080000000000000002...7`
+* `0.080000000000000002` -> `0.080000000000000002...8`
+> names(b) <- c("NO","ID", "Name", "Gender", "Quiz1", "Quiz2", "Quiz3",
++               "Quiz4", "TA", "Midterm", "Final", "ATT")
+> head(a, 5)
+  NO        ID   Name Gender Quiz1 Quiz2 Quiz3 Quiz4   TA Midterm Final ATT
+1  1 401405008 希瑄彥     男    10     0     5    20  0.0      55    50   2
+2  2 401550880 張泓丞     男    25    40    70    87 80.0      46    68   9
+3  3 404550061 張安婕     女    18    15    48    33 86.7      54    79   9
+4  4 404550042 柯政學     男    10    10    NA    NA 13.3       2     0   7
+5  5 404550023 謝文躍     女    35    45    52    97 86.7      55    67   9
+> tail(a, 5)
+   NO        ID   Name Gender Quiz1 Quiz2 Quiz3 Quiz4    TA Midterm Final ATT
+36 36 404550369 陳王霖     女    55    73    92    73 100.0      72    81   9
+37 37 404550420 何瑄穎     男    28    10    35     3  66.7      30     0   7
+38 38 404550431 沈泓霏     女    15    25    53    67  93.3      29    42   9
+39 39 404550442 許安霏     女    53    60    80    72 100.0      61    62   9
+40 40 404550453 李政宜     男    80   100    85   100 100.0      95   100   3
+> head(b, 5)
+# A tibble: 5 x 12
+     NO        ID Name   Gender Quiz1 Quiz2 Quiz3 Quiz4    TA Midterm Final   ATT
+  <dbl>     <dbl> <chr>  <chr>  <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl>
+1     1 404550465 史文羽 男        60    81   100    97 100        90    83     6
+2     2 404685071 鄭樺妤 男        80   100   100    92 100        92    97     2
+3     3 404685084 張敬安 男        10    40    62    93 100        65    84     9
+4     4 404685099 何筑亦 女        15    25    40    13  93.3      36     5     9
+5     5 404685100 張  儀 女        30    45    70    61  93.3      29    48     4
+> tail(b, 5)
+# A tibble: 5 x 12
+     NO        ID Name   Gender Quiz1 Quiz2 Quiz3 Quiz4    TA Midterm Final   ATT
+  <dbl>     <dbl> <chr>  <chr>  <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl>
+1    51 404685407 鄭鈺尤 女        80    85   100    85   100      89    95     9
+2    52 404685905 楊宜路 男        48    35    48    98   100      50    62     9
+3    53 404685013 張渝妤 男         0    38    60    40    87      49    25     1
+4    54 404685119 廖暄安 男        50    70    20    85   100      54    69     4
+5    55 499555916 楊毅亦 女         5    35    45    55    87      58    60     3
+> # ex1(b)
+> a["Classs"] <- "A"
+> b["Classs"] <- "B"
+> options(max.print=1000000)
+> score <- rbind(a, b)
+> # ex1(c)  
+> score[is.na(score)] <- 0 
+> score$"Total" <- (0.07*score$"Quiz1" + 0.07*score$"Quiz2" + 0.08*score$"Quiz3" + 0.08*score$"Quiz4"
++                  + 0.15*score$"TA" + 0.25*score$"Midterm" + 0.30*score$"Final" + score$"ATT")
+> score$"Total" <- ifelse((score$"Total" >= 100), 100, score$"Total" )
+> # ex1(d)
+> subset(score, score$"Total" >= 55 & score$"Total" < 60)
+   NO        ID   Name Gender Quiz1 Quiz2 Quiz3 Quiz4   TA Midterm Final ATT Classs
+38 38 404550431 沈泓霏     女    15    25    53    67 93.3      29    42   9      A
+45  5 404685100 張  儀     女    30    45    70    61 93.3      29    48   4      B
+68 28 404720722 楊佳聿     女    30    35    20    50 60.0      45    63   9      B
+70 30 404720527 馨飛羽     男    15     0    45    65 93.0      44    44   7      B
+95 55 499555916 楊毅亦     女     5    35    45    55 87.0      58    60   3      B
+    Total
+38 55.245
+45 55.375
+68 58.300
+70 55.000
+95 59.350
+> # ex1(e)
+> mean(score$"Total"[1:40])
+[1] 58.84575
+> mean(score$"Total"[41:95])
+[1] 61.123
+> mean(score$"Total"[score$"Gender" == "男"])
+[1] 60.90322
+> mean(score$"Total"[score$"Gender" == "女"])
+[1] 58.95292
+> # ex1(f)
+> a1 <- length(score$"NO"[score$"total" < 60 & score$"class" == "A"])
+> al1 <- length(score$"NO"[score$"class" == "A"])
+> aa <- a1/al1
+> sprintf("%.2f%%", aa*100)
+[1] "NaN%"
+> b1 <- length(score$"NO"[score$"Total" < 60 & score$"class" == "B"])
+> bl1 <- length(score$"NO"[score$"class" == "B"])
+> bb <- b1/bl1
+> sprintf("%.2f%%", bb*100)
+[1] "NaN%"
+> # ex1(g)
+> bs <- score$"Total"[score$"Gender" == "男"]
+> bs1 <- rev(sort(bs))
+> head(bs1, 5)
+[1] 99.15 97.06 95.72 94.07 94.03
+> c("Class", "ID", " Name", "Total", "Grade" )
+[1] "Class" "ID"    " Name" "Total" "Grade"
+> gs <- score$"Total"[score$"Gender" == "女"]
+> gs1 <- rev(sort(gs))
+> head(gs1, 5)
+[1] 100.000 100.000  96.435  88.460  85.140
+> # ex2(a)
+> set.seed(123456)
+> (Letters.code <- sample(LETTERS[1:5], 20, replace=T))
+ [1] "D" "B" "B" "A" "E" "D" "B" "C" "C" "E" "C" "D" "B" "E" "A" "B" "E" "C" "D" "C"
+> (Numbers.code<- ifelse(Letters.code %in% c("A","E"),1,ifelse(Letters.code=="C",2,3)))
+ [1] 3 3 3 1 1 3 3 2 2 1 2 3 3 1 1 3 1 2 3 2
+> # ex2(b)
+> (z2 <- data.frame(Numbers.code, Letters.code))
+   Numbers.code Letters.code
+1             3            D
+2             3            B
+3             3            B
+4             1            A
+5             1            E
+6             3            D
+7             3            B
+8             2            C
+9             2            C
+10            1            E
+11            2            C
+12            3            D
+13            3            B
+14            1            E
+15            1            A
+16            3            B
+17            1            E
+18            2            C
+19            3            D
+20            2            C
