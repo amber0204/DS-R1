@@ -1,0 +1,79 @@
+> #ex1(a)  
+> study <- function(){
++   for(x in 13:17){
++     for(y in 8:12){
++       if(400*x + 600*y > 12000)
++         cat(x, y, 400*x + 600*y, sqrt(x)*sqrt(y), " ")
++       else
++         cat(x, y, 400*x + 600*y, sqrt(x)*sqrt(y), "*")
++       cay("\n")
++     }
++   }
++ }
+> dd <- data.frame(study())
+13 8 10000 10.19804 *Error in cay("\n") : 沒有這個函數 "cay"
+> names(dd) <- c("Eng.hr", "Comp.hr", "Tuition", "U", "Fit")
+Error in names(dd) <- c("Eng.hr", "Comp.hr", "Tuition", "U", "Fit") : 
+  'names' 屬性 [5] 必須和向量的長度 [0] 一樣
+> #ex2(a)
+> library(readxl)
+> a <- read_excel("1091-SHU-R-Midterm/Score-109.xlsx", skip = 1, na = "NA")
+> head(a, 5)
+# A tibble: 5 x 3
+  ID    Calculus English
+  <chr>    <dbl>   <dbl>
+1 No.1        72      62
+2 No.2        88      97
+3 No.3        76      66
+4 No.4        89      51
+5 No.5        46      15
+> tail(a, 5)
+# A tibble: 5 x 3
+  ID    Calculus English
+  <chr>    <dbl>   <dbl>
+1 No.71       69      96
+2 No.72       51     100
+3 No.73       37      50
+4 No.74       33      92
+5 No.75        4      37
+> #ex2(b)
+> a[is.na(a)] <- 0 
+> p <- which((a$Calculus < 60) & (a$English < 60))
+> a[p, ]
+# A tibble: 23 x 3
+   ID    Calculus English
+   <chr>    <dbl>   <dbl>
+ 1 No.5        46      15
+ 2 No.7        32      51
+ 3 No.8        51       0
+ 4 No.11        3       0
+ 5 No.15       39       6
+ 6 No.18       40       0
+ 7 No.21       45      51
+ 8 No.26       39      29
+ 9 No.30       48      52
+10 No.33       18       0
+# ... with 13 more rows
+> #ex2(c)
+> my.cor <- function(y1, y2){
++   m1 <- mean(y1); m2 <- mean(y2)
++   r <-  
++   
++ }
+錯誤: 未預期的 '}' in:
+"  
+}"
+> s1 <- var(y1); s2 <- var(y2)
+Error in is.data.frame(x) : 找不到物件 'y1'
+> s <- ((n1-1)*s1 + (n2-1)*s2)/(n1+n2-2)
+錯誤: 找不到物件 'n1'
+> stat <- (m1-m2)/sqrt(s*(1/n1+1/n2))
+錯誤: 找不到物件 'm1'
+> list(means=c(m1, m2), pool.var=s, stat=stat)
+錯誤: 找不到物件 'm1'
+> #ex3(a)
+>   summary(x)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  2.551  20.347  41.481  44.281  62.528  97.014 
+>   for(i in -3:3){
++ }
